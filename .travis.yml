@@ -17,7 +17,6 @@ env:
     - LXC_DISTRO=ubuntu LXC_RELEASE=trusty
     - LXC_DISTRO=ubuntu LXC_RELEASE=precise
     - LXC_DISTRO=centos LXC_RELEASE=7
-    - LXC_DISTRO=centos LXC_RELEASE=6
     - LXC_DISTRO=ubuntu LXC_RELEASE=xenial ANSIBLE_VERSION='ansible>=1.9.0,<2.0.0' #EOL 2016-04-15
     - LXC_DISTRO=ubuntu LXC_RELEASE=xenial ANSIBLE_VERSION='ansible>=2.0.0,<2.1.0' #EOL 2016-04-19
     - LXC_DISTRO=ubuntu LXC_RELEASE=xenial ANSIBLE_VERSION='ansible>=2.1.0,<2.2.0' #EOL 2017-06-01

@@ -20,14 +20,3 @@
       with_items: "{{ taskd_prerequisites }}"
 
   when: ansible_os_family == "RedHat"
-
-- name: Install packages for Centos 6 to be able to validate SNI
-  yum:
-    name: "{{ item }}"
-    state: present
-  with_items:
-    - python-urllib3
-    - pyOpenSSL
-    - python-ndg_httpsclient
-    - python-pyasn1
-  when: ansible_distribution == "CentOS" and ansible_distribution_major_version == "6"

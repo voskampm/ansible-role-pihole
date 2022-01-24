@@ -1,0 +1,15 @@
+---
+
+- name: Run tasks as root
+  become: yes
+  block: 
+    - name: Create pihole group
+      group:
+        name: "{{ pihole_group }}"
+        state: present
+
+    - name: Create pihole user
+      user:
+        name: "{{ pihole_user }}"
+        groups: "{{ pihole_group }}"
+        state: present

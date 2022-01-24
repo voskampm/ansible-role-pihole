@@ -1,0 +1,48 @@
+---
+
+pihole_user: pihole
+pihole_group: "{{ pihole_user }}"
+
+pihole_backup_dir: /backup
+pihole_backup_app: pihole
+pihole_backup_app_software_dir: "{{ pihole_backup_dir }}/{{ pihole_backup_app }}/software"
+
+pihole_data_dir: "/home/{{ pihole_user }}/smadata"
+pihole_software_dir: /usr/local/bin/pihole.3
+
+pihole_what_to_backup:
+  - "{{ pihole_data_dir }}"
+  - "{{ pihole_software_dir }}"
+  - /etc/pihole
+
+packages:
+  - rsync
+
+pihole_pihole_interface: eth0
+pihole_ipv4_address: ''
+pihole_ipv6_address: ''
+pihole_pihole_dns_1: '8.8.8.8'
+pihole_pihole_dns_2: '8.8.4.4'
+pihole_query_logging: 'true'
+pihole_install_web_server: 'true'
+pihole_install_web_interface: 'true'
+pihole_lighttpd_enabled: 'true'
+pihole_cache_size: 10000
+pihole_dns_fqdn_required: 'true'
+pihole_dns_bogus_priv: 'true'
+pihole_dnsmasq_listening: 'local'
+pihole_webpassword: '8a03787236a2cf4a2e6f552ef24580f9c3077ee4e74a1a7800c0b2c0fbd378cb'
+pihole_blocking_enabled: 'true'
+
+# pihole_database_file: pihole.db
+# pihole_configuration_file: pihole.cfg
+# pihole_log_dir: "/home/{{ pihole_user }}/smadata/logs"
+
+# # Where to find the pihole sources
+# pihole_source_url: "https://github.com/pihole/pihole/archive/refs/tags/{{ pihole_version }}.tar.gz"
+# # Where to save the pihole sources
+
+# piholeupload_configuration_file: piholeUpload.cfg
+# # We alway create the piholeUpload binary and service but enabling the service is optional.
+# piholeupload_service_enabled: yes 
+# piholeupload_service_state: started 

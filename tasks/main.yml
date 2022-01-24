@@ -1,6 +1,10 @@
 ---
 - include: load-variables.yml
 
-- include: setup-epel.yml
-
 - include: setup-prerequisite.yml
+
+- include: backup.yml
+
+- include: setup-users.yml
+
+- include: install-pihole.yml

@@ -1,22 +1,20 @@
 ---
-- block:
 
-    - name: Install prerequisites with apt
-      apt:
-        name: "{{ item }}"
-        state: present
-        update_cache: yes
-      with_items: "{{ taskd_prerequisites }}"
-
-  when: ansible_os_family == "Debian"
-
-- block:
-
-    - name: Install prerequisites with yum
-      yum:
-        name: "{{ item }}"
-        state: present
-        update_cache: yes
-      with_items: "{{ taskd_prerequisites }}"
-
-  when: ansible_os_family == "RedHat"
+- name: Install as root
+  become: yes
+  block:
+    - block:
+        - name: Install prerequisites with apt
+          apt:
+            name: "{{ item }}"
+            state: present
+            cache_valid_time: 86400
+          with_items: "{{ packages }}"
+      when: ansible_os_family == "Debian"
+    - block:
+        - name: Install prerequisites with yum
+          yum:
+            name: "{{ item }}"
+            state: present
+          with_items: "{{ packages }}"
+      when: ansible_os_family == "RedHat"

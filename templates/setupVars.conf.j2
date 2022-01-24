@@ -1,9 +1,16 @@
-PIHOLE_INTERFACE=eth0
-IPV4_ADDRESS=192.168.1.107/24
-IPV6_ADDRESS=
-PIHOLE_DNS_1=8.8.8.8
-PIHOLE_DNS_2=8.8.4.4
-QUERY_LOGGING=true
-INSTALL_WEB=true
-LIGHTTPD_ENABLED=1
-WEBPASSWORD=3c0d21a3b1badc648d9ec296de86c4f6b2f7b756324da30e3e3e60cdb02006ea
+PIHOLE_INTERFACE={{ pihole_pihole_interface|d('eth0', true) }}
+IPV4_ADDRESS={{ pihole_ipv4_address|d('', true) }}
+IPV6_ADDRESS={{ pihole_ipv6_address|d('', true) }}
+PIHOLE_DNS_1={{ pihole_pihole_dns_1|d('8.8.8.8', true) }}
+PIHOLE_DNS_2={{ pihole_pihole_dns_2|d('8.8.4.4', true) }}
+QUERY_LOGGING={{ pihole_query_logging|d('true', true) }}
+INSTALL_WEB_SERVER={{ pihole_install_web_server|d('true', true) }}
+INSTALL_WEB_INTERFACE={{ pihole_install_web_interface|d('true', true) }}
+LIGHTTPD_ENABLED={{ pihole_lighttpd_enabled|d('true', true) }}
+CACHE_SIZE={{ pihole_cache_size|d('10000', true) }}
+DNS_FQDN_REQUIRED={{ pihole_dns_fqdn_required|d('true', true) }}
+DNS_BOGUS_PRIV={{ pihole_dns_bogus_priv|d('true', true) }}
+DNSMASQ_LISTENING={{ pihole_dnsmasq_listening|d('local', true) }}
+WEBPASSWORD={{ pihole_webpassword|d('8a03787236a2cf4a2e6f552ef24580f9c3077ee4e74a1a7800c0b2c0fbd378cb', true) }}
+BLOCKING_ENABLED={{ pihole_blocking_enabled|d('true', true) }}
+

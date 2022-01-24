@@ -1,0 +1,14 @@
+---
+dependency:
+  name: galaxy
+driver:
+  name: vagrant
+platforms:
+  - name: debian11
+    box: debian/bullseye64
+  - name: debian10
+    box: debian/buster64
+provisioner:
+  name: ansible
+verifier:
+  name: ansible

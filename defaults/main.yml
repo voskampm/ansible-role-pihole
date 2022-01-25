@@ -1,11 +1,13 @@
 ---
-
 pihole_user: pihole
 pihole_group: "{{ pihole_user }}"
 
 pihole_backup_dir: /backup
 pihole_backup_app: pihole
 pihole_backup_app_software_dir: "{{ pihole_backup_dir }}/{{ pihole_backup_app }}/software"
+
+# https://docs.pi-hole.net/core/pihole-command/?h=tele#teleport
+pihole_create_teleport_backup_job: true
 
 pihole_data_dir: "/home/{{ pihole_user }}/smadata"
 pihole_software_dir: /usr/local/bin/pihole.3

@@ -30,12 +30,12 @@
             dest: "{{ pihole_backup_app_software_dir }}/pihole-basic-install.sh"
             mode: 0755
 
-        #TODO: make unattended
         - name: Run Pi-hole installer
           shell: "{{ pihole_backup_app_software_dir }}/pihole-basic-install.sh --unattended"
 
       when: pihole_installed.stat.isdir is undefined
 
-    - name: Run pihole update command
-      shell: pihole -up
-      when: pihole_installed.stat.isdir is defined
+# Temporary disable to check what actually happens when I run the command myself.
+#    - name: Run pihole update command
+#      shell: pihole -up
+#      when: pihole_installed.stat.isdir is defined

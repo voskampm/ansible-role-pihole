@@ -6,3 +6,22 @@
   vars:
     backup_app: "{{ pihole_backup_app }}"
     backup_to_backup: "{{ pihole_what_to_backup }}"
+
+- name: Pihole teleport backup
+  become: yes
+  block:
+    # https://docs.pi-hole.net/core/pihole-command/?h=tele#teleport
+    - name: Create script for pihole Teleport backup
+      ansible.builtin.template:
+        src: pihole_teleport_backup.sh.j2
+        dest: "/usr/local/bin/pihole_teleport_backup.sh"
+        owner: root
+        group: root
+        mode: '0744'
+
+    - name: Create job for pihole Teleport backup
+      ansible.builtin.cron:
+        name: "Daily Pihole teleport backup"
+        special_time: daily
+        job: "/usr/local/bin/pihole_teleport_backup.sh"
+  when: pihole_create_teleport_backup_job

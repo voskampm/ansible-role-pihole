@@ -18,6 +18,30 @@
         group: "{{ pihole_group }}" 
         mode: '0744'
 
+    - name: Check if pihole-FTL.db is installed
+      stat:
+        path: /etc/pihole/pihole-FTL.db
+      register: pihole_ftl_db_installed
+
+    - name: Restore a backup of pihole-FTL.db if available
+      block:
+
+        - name: Check if a backup of pihole-FTL.db is available
+          stat:
+            path: etc/pihole/pihole-FTL.db
+          register: pihole_ftl_db_installed
+
+        - name: Restore a backup of pihole-FTL.db
+          ansible.builtin.copy: 
+            src: "/backup/sbfspot/data/daily/latest/pihole-FTL.db"
+            dest: /etc/pihole/pihole-FTL.db
+            remote_src: yes
+            owner: "{{ sbfspot_user }}"
+            group: "{{ sbfspot_group }}"
+            mode: 0644
+
+      when: pihole_ftl_db_installed.stat.exists is false
+
     - name: Check if pihole is installed
       stat:
         path: /usr/local/bin/pihole

@@ -5,7 +5,7 @@
     name: "voskampm.application_backup"
   vars:
     backup_app: "{{ pihole_backup_app }}"
-    backup_to_backup: "{{ pihole_what_to_backup }}"
+    backup_what_to_backup: "{{ pihole_what_to_backup }}"
 
 - name: Pihole teleport backup
   become: yes

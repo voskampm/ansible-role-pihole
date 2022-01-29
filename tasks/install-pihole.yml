@@ -2,52 +2,54 @@
 - name: Run tasks as the root user
   become: yes
   block:
-    - name: Create /etc/pihole dir
-      file:
-        path: /etc/pihole
-        state: directory
-        owner: root
-        group: root
-
-    # setupVars.conf contains the variables used by the 'install.sh --unattended' command below.
-    - name: Create /etc/pihole/setupVars.conf
-      ansible.builtin.template:
-        src: setupVars.conf.j2
-        dest: "/etc/pihole/setupVars.conf"
-        owner: "{{ pihole_user }}"
-        group: "{{ pihole_group }}" 
-        mode: '0744'
-
-    - name: Check if pihole-FTL.db is installed
-      stat:
-        path: /etc/pihole/pihole-FTL.db
-      register: pihole_ftl_db_installed
-
-    - name: Restore a backup of pihole-FTL.db if available
-      block:
-
-        - name: Check if a backup of pihole-FTL.db is available
-          stat:
-            path: etc/pihole/pihole-FTL.db
-          register: pihole_ftl_db_installed
-
-        - name: Restore a backup of pihole-FTL.db
-          ansible.builtin.copy: 
-            src: "/backup/sbfspot/data/daily/latest/pihole-FTL.db"
-            dest: /etc/pihole/pihole-FTL.db
-            remote_src: yes
-            owner: "{{ sbfspot_user }}"
-            group: "{{ sbfspot_group }}"
-            mode: 0644
-
-      when: pihole_ftl_db_installed.stat.exists is false
 
     - name: Check if pihole is installed
       stat:
         path: /usr/local/bin/pihole
       register: pihole_installed
+    
+    - name: Restore pihole data and install pihole
+      block:
+        # We only want to restore pihole data if pihole is not installed
+        - name: Create /etc/pihole dir
+          file:
+            path: /etc/pihole
+            state: directory
+            owner: root
+            group: root
 
-    - block:
+        # setupVars.conf contains the variables used by the 'install.sh --unattended' command below.
+        - name: Create /etc/pihole/setupVars.conf
+          ansible.builtin.template:
+            src: setupVars.conf.j2
+            dest: "/etc/pihole/setupVars.conf"
+            owner: "{{ pihole_user }}"
+            group: "{{ pihole_group }}" 
+            mode: '0744'
+
+        - name: Check if pihole-FTL.db is installed
+          stat:
+            path: /etc/pihole/pihole-FTL.db
+          register: pihole_ftl_db_installed
+
+        - name: Restore a backup of pihole-FTL.db if available
+          block:
+            - name: Check if a backup of pihole-FTL.db is available
+              stat:
+                path: "/backup/pihole/data/daily/latest/etc/pihole/pihole-FTL.db"
+              register: pihole_ftl_db_backup
+
+            - name: Restore a backup of pihole-FTL.db
+              ansible.builtin.copy: 
+                src: "/backup/pihole/data/daily/latest/etc/pihole/pihole-FTL.db"
+                dest: /etc/pihole/pihole-FTL.db
+                remote_src: yes
+                owner: "{{ pihole_user }}"
+                group: "{{ pihole_group }}"
+                mode: 0644
+              when: pihole_ftl_db_backup.stat.exists
+          when: pihole_ftl_db_installed.stat.exists is false
+
         - name: Get bash install script
           get_url:
             url: https://install.pi-hole.net

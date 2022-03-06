@@ -1,1 +1,22 @@
 ---
+
+# 'restarted' causes error: lighttpd.service: Start request repeated too quickly.
+- name: Stop lighthttpd service
+  service:
+    name: lighttpd
+    state: stopped
+  become: yes
+  notify: Start lighthttpd service
+
+- name: Pause before starting lighthttpd service
+  pause:
+    seconds: 5
+
+- name: Start lighthttpd service
+  service:
+    name: lighttpd
+    state: started
+  become: yes
+
+- name: restart pihole dns
+  shell: "{{ pihole_binary | quote }} restartdns"

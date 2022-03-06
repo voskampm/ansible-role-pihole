@@ -59,9 +59,23 @@
         - name: Run Pi-hole installer
           shell: "{{ pihole_backup_app_software_dir }}/pihole-basic-install.sh --unattended"
 
+        - name: Set port of the pihole lighthttpd webserver
+          ansible.builtin.lineinfile:
+            path: "{{ pihole_lighttpd_configuration_file }}"
+            regexp: '^server.port '
+            line: "server.port                 = {{ pihole_web_server_port }}"
+          notify:
+            - Stop lighthttpd service
+            - Pause before starting lighthttpd service
+            - Start lighthttpd service            
+
       when: pihole_installed.stat.isdir is undefined
 
 # Temporary disable to check what actually happens when I run the command myself.
 #    - name: Run pihole update command
 #      shell: pihole -up
 #      when: pihole_installed.stat.isdir is defined
+
+# Run handlers now. The webserver must be restarted even if an error occurs later in a playbook.
+- name: Flush handlers
+  meta: flush_handlers

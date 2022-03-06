@@ -1,0 +1,15 @@
+---
+
+# Configure Pihole DNS
+# https://thiagowfx.github.io/2022/01/pihole-add-custom-dns-mappings/
+- name: Add entries to the Pi-hole DNS server
+  ansible.builtin.lineinfile:
+    path: /etc/dnsmasq.d/03-pihole-custom-dns.conf
+    line: "address=/{{ item.name }}/{{ item.address }}"
+    create: yes
+    owner: root
+    group: root
+    mode: '0644'
+  notify:
+    - restart pihole dns
+  with_items: "{{ pihole_dns_entries | default([])}}"

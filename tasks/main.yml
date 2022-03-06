@@ -8,3 +8,5 @@
 - include: setup-users.yml
 
 - include: install-pihole.yml
+
+- include: dns.yml

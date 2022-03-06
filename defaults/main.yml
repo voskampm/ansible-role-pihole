@@ -9,13 +9,12 @@ pihole_backup_app_software_dir: "{{ pihole_backup_dir }}/{{ pihole_backup_app }}
 # https://docs.pi-hole.net/core/pihole-command/?h=tele#teleport
 pihole_create_teleport_backup_job: true
 
-pihole_data_dir: "/home/{{ pihole_user }}/smadata"
-pihole_software_dir: /usr/local/bin/pihole.3
+pihole_binary: /usr/local/bin/pihole
 
 pihole_what_to_backup:
-  - "{{ pihole_data_dir }}"
-  - "{{ pihole_software_dir }}"
   - /etc/pihole
+  - /etc/dnsmasq.conf
+  - /etc/dnsmasq.d
 
 packages:
   - rsync
@@ -35,6 +34,11 @@ pihole_dns_bogus_priv: 'true'
 pihole_dnsmasq_listening: 'local'
 pihole_webpassword: '8a03787236a2cf4a2e6f552ef24580f9c3077ee4e74a1a7800c0b2c0fbd378cb'
 pihole_blocking_enabled: 'true'
+
+pihole_lighttpd_configuration_file: /etc/lighttpd/lighttpd.conf
+# https://docs.pi-hole.net/main/prerequisites/ states that the port of the admin website can be changed. That
+# port is definded in /etc/lighttpd/lighttpd.conf and looks like: 'server.port                 = 80'
+pihole_web_server_port: 80 
 
 # pihole_database_file: pihole.db
 # pihole_configuration_file: pihole.cfg
